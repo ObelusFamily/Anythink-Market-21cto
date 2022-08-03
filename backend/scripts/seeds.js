@@ -62,7 +62,7 @@ async function cleanup() {
 async function main() {
   InsertData().then(() => {
     console.debug('Data Inserted. Closing connection.');
-    await mongoose.connection.close();
+    mongoose.connection.close();
   });
 }
 
