@@ -67,4 +67,8 @@ async function main() {
   });
 }
 
+<<<<<<< HEAD
 main();
+=======
+cleanup();
+>>>>>>> e8a04474331c3279b567b58dba1a051ba30401b1
