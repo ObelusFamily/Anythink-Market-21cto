@@ -57,18 +57,13 @@ async function cleanup() {
   await Item.deleteMany({}, () => console.log("Data Cleared Item"));
   await Comment.deleteMany({}, () => console.log("Data Cleared Comment"));
   await User.deleteMany({}, () => console.log("Data Cleared User"));
-  await mongoose.connection.close();
 }
 
 async function main() {
   InsertData().then(() => {
-    console.debug('Data Inserted. Cleaning Now.');
-    cleanup();
+    console.debug('Data Inserted. Closing connection.');
+    await mongoose.connection.close();
   });
 }
 
-<<<<<<< HEAD
 main();
-=======
-cleanup();
->>>>>>> e8a04474331c3279b567b58dba1a051ba30401b1
