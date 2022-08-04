@@ -2,7 +2,14 @@ const path = require("path");
 require("dotenv").config({ path: path.resolve(__dirname, "../.env") });
 var mongoose = require("mongoose");
 
-mongoose.connect(process.env.MONGODB_URI);
+mongoose.connect(process.env.MONGODB_URI, {
+  useUnifiedTopology: true,
+  useNewUrlParser: true,
+  keepAlive: false,
+  keepAliveInitialDelay: 3000,
+});
+
+let countData = 0;
 
 require("../models/User");
 require("../models/Item");
@@ -15,13 +22,14 @@ const ItemData = require("../data/item.json");
 const CommentData = require("../data/comment.json");
 const UserData = require("../data/user.json");
 
-async function InsertData() {
+function InsertData() {
   ItemData.forEach(async (item) => {
     item.seller = item.seller.$oid;
     const oldItem = await Item.find({ title: item.title });
     if (!oldItem.length) {
       var newItem = new Item(item);
       await newItem.save();
+      countData++;
     } else {
       console.log(item.slug);
     }
@@ -32,6 +40,7 @@ async function InsertData() {
     if (!oldUser.length) {
       var user = new User(user);
       await user.save();
+      countData++;
     } else {
       console.log(user.username);
     }
@@ -44,6 +53,7 @@ async function InsertData() {
     const oldComment = await Comment.find({ _id: newComment.id });
     if (!oldComment.length) {
       await newComment.save();
+      countData++;
     } else {
       console.log(comment.body);
     }
@@ -60,10 +70,11 @@ async function cleanup() {
 }
 
 async function main() {
-  InsertData().then(async () => {
-    console.debug('Data Inserted. Closing connection.');
-    await mongoose.connection.close();
-  });
+  InsertData();
+  console.debug("Data Inserted. Closing connection.");
 }
 
 main();
+setTimeout(() => {
+  mongoose.connection.close();
+}, 30000);
