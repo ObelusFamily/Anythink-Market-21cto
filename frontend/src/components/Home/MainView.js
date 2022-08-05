@@ -70,12 +70,15 @@ const mapDispatchToProps = (dispatch) => ({
 });
 
 const MainView = (props) => {
-
   if (!props.items) {
     return <div className="py-4">Loading...</div>;
   }
-  if (props.items.length === 0) {
-    return <div id="empty">No items found for the item you searched.</div>;
+  if (props.items.length === 0 && props.term.length > 0) {
+    return (
+      <div id="empty">
+        No items found for <strong>{props.term}</strong> you searched.
+      </div>
+    );
   }
 
   return (
