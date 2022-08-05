@@ -7,13 +7,14 @@ const Banner = (props) => {
   const searchBoxRef = useRef();
 
   function toggleSearchBox() {
-    searchBoxRef.current.classList.toggle('hide');
+    searchBoxRef.current.classList.toggle("hide");
   }
 
   useEffect(() => {
     searchRef.current.addEventListener("click", toggleSearchBox);
 
     return () => {
+      // eslint-disable-next-line react-hooks/exhaustive-deps
       searchRef.current.removeEventListener("click", toggleSearchBox);
     };
   }, []);
