@@ -170,6 +170,17 @@ router.get("/:item", auth.optional, function(req, res, next) {
     .catch(next);
 });
 
+router.get("/:title", auth.required, function(req, res, next) {
+  Promise(
+    Item.find({
+      "title": /.*${req.params.query}.*/
+    })
+  ).then(function(results) {
+    var products = results;
+    return res.json({ products });
+  }).catch(next);
+});
+
 // update item
 router.put("/:item", auth.required, function(req, res, next) {
   User.findById(req.payload.id).then(function(user) {
