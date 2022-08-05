@@ -11,6 +11,7 @@ const Banner = (props) => {
           <span id="get-part">A place to get</span>
           <span className="mx-2 mw-25 position-relative">
             <input
+              id="search-box"
               style={{ minWidth: "400px" }}
               className="w-25 p-2"
               placeholder="What is it you truly desire?"
