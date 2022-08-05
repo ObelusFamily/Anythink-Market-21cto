@@ -34,6 +34,17 @@ class Home extends React.Component {
     };
   }
 
+  componentWillMount() {
+    const tab = "all";
+    const itemsPromise = agent.Items.all;
+
+    this.props.onLoad(
+      tab,
+      itemsPromise,
+      Promise.all([agent.Tags.getAll(), itemsPromise()])
+    );
+  }
+
   componentDidUpdate(pp, ps, ss) {
     if (ps.term !== this.state.term) {
       if (this.state.term.length >= 3) {
@@ -56,17 +67,6 @@ class Home extends React.Component {
     }
   }
 
-  componentWillMount() {
-    const tab = "all";
-    const itemsPromise = agent.Items.all;
-
-    this.props.onLoad(
-      tab,
-      itemsPromise,
-      Promise.all([agent.Tags.getAll(), itemsPromise()])
-    );
-  }
-
   componentWillUnmount() {
     this.props.onUnload();
   }
@@ -83,7 +83,7 @@ class Home extends React.Component {
 
         <div className="container page">
           <Tags tags={this.props.tags} onClickTag={this.props.onClickTag} />
-          <MainView />
+          <MainView term={this.state.term} />
         </div>
       </div>
     );
