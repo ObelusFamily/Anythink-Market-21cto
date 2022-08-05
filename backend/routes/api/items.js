@@ -40,6 +40,7 @@ router.get("/", auth.optional, function (req, res, next) {
   var query = {};
   var limit = 100;
   var offset = 0;
+  var title = '';
 
   if (typeof req.query.limit !== "undefined") {
     limit = req.query.limit;
@@ -51,6 +52,12 @@ router.get("/", auth.optional, function (req, res, next) {
 
   if (typeof req.query.tag !== "undefined") {
     query.tagList = { $in: [req.query.tag] };
+  }
+
+  if (typeof req.query.title !== "undefined") {
+    var title = req.query.title.trim();
+    var regex = new RegExp(title, 'i');
+    query.title = regex;
   }
 
   Promise.all([
@@ -168,19 +175,6 @@ router.get("/:item", auth.optional, function (req, res, next) {
       var user = results[0];
 
       return res.json({ item: req.item.toJSONFor(user) });
-    })
-    .catch(next);
-});
-
-router.get("/:query", auth.required, function (req, res, next) {
-  Promise(
-    Item.find({
-      title: /.*${req.params.query}.*/,
-    })
-  )
-    .then(function (results) {
-      var products = results;
-      return res.json({ products });
     })
     .catch(next);
 });
