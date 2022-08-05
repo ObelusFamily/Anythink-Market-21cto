@@ -14,6 +14,7 @@ const Banner = (props) => {
     searchRef.current.addEventListener("click", toggleSearchBox);
 
     return () => {
+      // eslint-disable-next-line react-hooks/exhaustive-deps
       searchRef.current.removeEventListener("click", toggleSearchBox);
     };
   }, []);
