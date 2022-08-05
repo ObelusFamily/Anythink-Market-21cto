@@ -7,7 +7,7 @@ const Banner = (props) => {
   const searchBoxRef = useRef();
 
   function toggleSearchBox() {
-    searchBoxRef.current.classList.toggle("hide");
+    searchBoxRef.current.classList.toggle('hide');
   }
 
   useEffect(() => {
