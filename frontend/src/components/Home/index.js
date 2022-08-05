@@ -34,6 +34,17 @@ class Home extends React.Component {
     };
   }
 
+  componentWillMount() {
+    const tab = "all";
+    const itemsPromise = agent.Items.all;
+
+    this.props.onLoad(
+      tab,
+      itemsPromise,
+      Promise.all([agent.Tags.getAll(), itemsPromise()])
+    );
+  }
+
   componentDidUpdate(pp, ps, ss) {
     if (ps.term !== this.state.term) {
       if (this.state.term.length >= 3) {
@@ -54,17 +65,6 @@ class Home extends React.Component {
         );
       }
     }
-  }
-
-  componentWillMount() {
-    const tab = "all";
-    const itemsPromise = agent.Items.all;
-
-    this.props.onLoad(
-      tab,
-      itemsPromise,
-      Promise.all([agent.Tags.getAll(), itemsPromise()])
-    );
   }
 
   componentWillUnmount() {
